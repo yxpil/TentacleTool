@@ -1,0 +1,16 @@
+{
+  "name": "netonhome-mcp-server",
+  "version": "2.0.0",
+  "description": "NetonHome - 家庭安全守护 MCP 服务器（网络安全 + 场景感知，Streamable HTTP 协议，零依赖）",
+  "type": "commonjs",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": ["mcp", "network", "lan", "scan", "port", "capture"],
+  "license": "MIT"
+}
