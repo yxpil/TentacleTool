@@ -17,9 +17,19 @@ function intToIp(n) {
   return [(n >>> 24) & 255, (n >>> 16) & 255, (n >>> 8) & 255, n & 255].join('.');
 }
 
+/** 校验 IPv4 每段都在 0~255 内。仅靠 /\d{1,3}/ 会放过 192.168.1.999，转而产生垃圾整数。 */
+function isValidIpv4(ip) {
+  if (!/^\d{1,3}(\.\d{1,3}){3}$/.test(ip)) return false;
+  return ip.split('.').every(oct => {
+    const n = parseInt(oct, 10);
+    return n >= 0 && n <= 255;
+  });
+}
+
 /**
- * 解析 CIDR 或 IP 段，返回 { start, end, size, hosts[] 可迭代范围 }
+ * 解析 CIDR 或 IP 段，返回 { start, end, size, desc }
  * 支持: 192.168.1.0/24、192.168.1.1、192.168.1.1-192.168.1.50、192.168.1.1-50
+ * 格式无法识别或地址非法时抛出带中文说明的 Error（调用方负责转成用户可读提示）。
  */
 function parseTarget(input) {
   input = String(input || '').trim();
@@ -27,6 +37,7 @@ function parseTarget(input) {
 
   // 单 IP
   if (/^\d{1,3}(\.\d{1,3}){3}$/.test(input)) {
+    if (!isValidIpv4(input)) throw new Error('IP 地址不合法（每段需在 0~255 之间）: ' + input);
     const n = ipToInt(input);
     return { start: n, end: n, size: 1, desc: input };
   }
@@ -34,6 +45,7 @@ function parseTarget(input) {
   // CIDR
   const cidrMatch = input.match(/^(\d{1,3}(\.\d{1,3}){3})\/(\d{1,2})$/);
   if (cidrMatch) {
+    if (!isValidIpv4(cidrMatch[1])) throw new Error('IP 地址不合法（每段需在 0~255 之间）: ' + cidrMatch[1]);
     const base = ipToInt(cidrMatch[1]);
     const prefix = parseInt(cidrMatch[3], 10);
     if (prefix < 0 || prefix > 32) throw new Error('CIDR 前缀无效: /' + prefix);
@@ -51,6 +63,9 @@ function parseTarget(input) {
     let right = input.slice(dashIdx + 1).trim();
     if (/^\d{1,3}$/.test(right)) {
       right = left.slice(0, left.lastIndexOf('.')) + '.' + right;
+    }
+    if (!isValidIpv4(left) || !isValidIpv4(right)) {
+      throw new Error('IP 地址不合法（每段需在 0~255 之间）: ' + left + '-' + right);
     }
     const s = ipToInt(left);
     const e = ipToInt(right);
@@ -70,6 +85,12 @@ function classifyIp(ip) {
   if (b1 === 172 && ((n >>> 16) & 255) >= 16 && ((n >>> 16) & 255) <= 31) return 'private';
   if (b1 === 192 && ((n >>> 16) & 255) === 168) return 'private';
   if (b1 === 169 && ((n >>> 16) & 255) === 254) return 'link-local';
+  // 以下三类此前被误判为 public：组播/广播/未指定地址并非可路由的公网地址，
+  // 把它们当公网会误导扫描目标筛选与风险判断。
+  if (b1 === 0) return 'unspecified';                                  // 0.0.0.0/8
+  if (b1 >= 224 && b1 <= 239) return 'multicast';                      // 224.0.0.0/4
+  if (b1 === 255 && n === 0xffffffff) return 'broadcast';              // 255.255.255.255
+  if (b1 >= 240) return 'reserved';                                    // 240.0.0.0/4
   return 'public';
 }
 

@@ -8,6 +8,8 @@ netstat -ano | findstr :8343
 if %errorlevel%==0 (
   echo.
   echo Search server is RUNNING on 127.0.0.1:8343
+  echo Tools: web_search / search_detail / search_suggest
+  echo Note: all three tools query live search engines and need network access.
 ) else (
   echo Failed to start. Check if port 8343 is occupied.
 )

@@ -133,3 +133,23 @@ find/
         ├── format.js      # 大小/时间紧凑格式化
         └── logger.js      # 日志（logs/find.log）
 ```
+
+## 测试
+
+零依赖，纯逻辑层，**不扫描真实磁盘**：
+
+```powershell
+npm test                 # 等价于 node test/smoke.test.js
+```
+
+`test/smoke.test.js` 覆盖 **74 项**断言，分五块：
+
+| 分节 | 覆盖内容 |
+|------|----------|
+| `toGlobRegex` | `*` / `**` / `?` 语义、点号转义、大小写不敏感；并记录「正则是无锚点的」这一有意设计 |
+| `matchScore` | 四模式（sub/fuzzy/glob/regex）打分与优先级：完全相同 100 > 前缀 80 > 包含 60 > 仅路径 30 > 不命中 -1 |
+| `fuzzyScore` | 连续命中加成（`abc` 在 `abc.js` 中得分高于 `axbxc.js`）、顺序不满足返回 -1 |
+| `searchEntries` | 按 ext / type / root 过滤、按分数降序、total 与 matches 一致性 |
+| `format.js` | 扩展名抽取、字节数人类可读（B/KB/MB/GB）、绝对与相对时间、时间窗解析（`30m`/`7d`/`2w`/`90min`） |
+
+输出为终端可读格式（`=== 分节 ===` + 失败项清单 + `通过 N 失败 M`），失败时退出码为 1。

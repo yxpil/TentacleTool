@@ -8,6 +8,8 @@ netstat -ano | findstr :8342
 if %errorlevel%==0 (
   echo.
   echo WebView server is RUNNING on 127.0.0.1:8342
+  echo Tools: web_to_md / html_to_md / web_links / web_meta
+  echo Note: web_to_md / web_links / web_meta fetch live pages and need network access.
 ) else (
   echo Failed to start. Check if port 8342 is occupied.
 )

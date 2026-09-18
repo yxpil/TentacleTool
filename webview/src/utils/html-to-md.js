@@ -287,9 +287,13 @@ class Converter {
     }
 
     // 表格单元格内：所有内容行内化
+    // 注意：td/th/caption 是「开局元」而非行内内容——它们要开启新的捕获缓冲，
+    // 必须在下面 switch 里处理。若在这里就被 BLOCK_TAGS 拦下改成空格，
+    // 捕获缓冲永不开启 → renderCapture() 返回空 → 整行 cells 为空 → emitTable 直接丢弃表格。
     if (this.curRow !== null) {
       if (tag === 'table') return; // 忽略嵌套表格
-      if (tag === 'br' || BLOCK_TAGS.has(tag)) { this.pushInline(' '); return; }
+      if (tag !== 'td' && tag !== 'th' && tag !== 'caption' &&
+          (tag === 'br' || BLOCK_TAGS.has(tag))) { this.pushInline(' '); return; }
     }
 
     switch (tag) {

@@ -61,3 +61,24 @@ webview/
 - **嵌套结构**：多级列表（有序/无序混排）、嵌套引用块正确缩进
 - **字符集**：HTTP 头 -> meta charset 自动识别，中文 GBK/GB18030/Big5 页面不乱码
 - **相对链接**：全部转为绝对地址；空文本链接转为 `<autolink>` 形式
+
+## 测试
+
+零依赖，纯逻辑层，不发起任何网络请求：
+
+```powershell
+npm test                 # 等价于 node test/smoke.test.js
+```
+
+`test/smoke.test.js` 覆盖 **100 项**断言，分六块：
+
+| 分节 | 覆盖内容 |
+|------|----------|
+| decodeEntities | 具名/十进制/十六进制实体；`&nbsp;` 等空白类实体有意折叠为普通空格 |
+| tokenize | start/text/end 三件套、属性解析、自闭合标签、注释丢弃、raw-text 元素 |
+| parseAttrs | 引号风格、无值属性、引号嵌套 |
+| htmlToMarkdown | 标题/强调/行内码/代码块/列表（含嵌套）/链接/图片/引用/**表格**/title 前置 |
+| htmlToMarkdown 边界 | 空输入、null、未闭合标签、脚本与样式剔除、空行压缩、首尾整洁 |
+| page-parser | 元信息提取、链接去重与绝对化、`resolveUrl` 各种形式 |
+
+输出为终端可读格式（`=== 分节 ===` + 失败项清单 + `通过 N 失败 M`），失败时退出码为 1。

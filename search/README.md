@@ -71,3 +71,23 @@ search/
 | DuckDuckGo | `duckduckgo` | s | 可选；html.duckduckgo.com 免 Key 端点，部分网络环境不可达，失败自动降级不影响其他引擎 |
 
 某引擎失败不影响整体：结果尾部以 `> 引擎 xxx 失败` 标注，可用 `engines` 参数单独重试。
+
+## 测试
+
+零依赖，纯逻辑层，**不发起任何网络请求**（真实引擎请求依赖外网、结果不稳定，不适合当回归门槛）：
+
+```powershell
+npm test                 # 等价于 node test/smoke.test.js
+```
+
+`test/smoke.test.js` 覆盖 **62 项**断言，分五块：
+
+| 分节 | 覆盖内容 |
+|------|----------|
+| 基础工具 | `collapse` 空白折叠、`clampInt` 上下界裁剪与非法值回退、`classList` 类名解析 |
+| 跳转链接还原 | `decodeBingUrl`（base64url 载荷解码 + 解不出时保留原链）、`decodeDdgUrl`（uddg 参数 + 非法值容错） |
+| token 区间原语 | `findRanges` 嵌套去重、`textInRange`、`findStart`、`anchorText`（含嵌套标签与实体解码） |
+| html-to-md 底座 | `decodeEntities`、`tokenize`；并分别锁住「分词层产出 raw-text token」与「转换层剔除脚本/样式」两层契约 |
+| 引擎适配器形状 | bing/baidu/duckduckgo 均导出 async `search`；`resolveBaiduLink` 返回 `{ url, resolved }` |
+
+输出为终端可读格式（`=== 分节 ===` + 失败项清单 + `通过 N 失败 M`），失败时退出码为 1。
