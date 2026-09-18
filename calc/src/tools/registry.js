@@ -45,15 +45,25 @@ const TOOLS = [
   {
     name: 'calc_equation',
     title: '方程与方程组求解',
-    description: '求解方程。三种输入方式：① equation + variable —— 单方程，自动判型：线性/多项式给出精确系数与全部根（含复根，如 x^2+1=0 → ±i），超越方程（含 sin/cos/ln/exp）用区间扫描+二分+牛顿数值求根，range 指定搜索区间；② equations + variables —— 线性方程组（高斯消元）；③ coeffs —— 直接给多项式系数（降幂）。',
+    description: '求解方程与联立方程组。输入方式：① equation + variable —— 单方程，自动判型：线性/多项式给出精确系数与全部根（含复根，如 x^2+1=0 → ±i），超越方程（含 sin/cos/ln/exp）用区间扫描+二分+牛顿数值求根，range 指定搜索区间；② equations + variables —— 联立方程组，自动分派：恰好线性方阵→高斯消元精确解（附代回验证），非线性或非方阵→阻尼最小二乘+多起点迭代，**会枚举多组解**（如 x^2+y^2=25 与 x-y=1 → 2 组解），方程数≠未知数数时给最小二乘/最小范数解，searchRange 定搜索框、guesses 给初值、maxSolutions 限解数；③ coeffs —— 直接给多项式系数（降幂）；④ equations（1 条）+不确定变量 → 欠定参数解。',
     inputSchema: {
       type: 'object',
       properties: {
         equation: { type: 'string', description: '单个方程，如 "2x+3=7"、"x^2-5x+6=0"、"cos(x)=0.5"。没有等号时视为 =0' },
         variable: { type: 'string', description: '未知数名（默认自动识别，通常为 x）' },
-        range: { type: 'array', items: { type: 'number' }, description: '数值求根的搜索区间 [lo, hi]（默认 [-50, 50]），如 [-10, 10]' },
-        equations: { type: 'array', items: { type: 'string' }, description: '线性方程组，如 ["2x+3y=8", "x-y=-1"]（须同时给 variables）' },
+        range: { type: 'array', items: { type: 'number' }, description: '单方程数值求根的搜索区间 [lo, hi]（默认 [-50, 50]），如 [-10, 10]' },
+        equations: { type: 'array', items: { type: 'string' }, description: '联立方程组，如 ["2x+3y=8","x-y=-1"] 或 ["x^2+y^2=25","x-y=1"]（须同时给 variables）。线性自动用消元法，非线性用最小二乘+多起点枚举多解' },
         variables: { type: 'array', items: { type: 'string' }, description: '方程组的未知数名，如 ["x","y"]' },
+        searchRange: {
+          type: 'array',
+          description: '方程组多解搜索范围。可给 [lo,hi] 对所有变量统一，或 [[lox,hix],[loy,hiy],...] 每个变量不同（长度须等于 variables 长度）。默认 [-10,10]。非线性方程组枚举解时用'
+        },
+        guesses: {
+          type: 'array',
+          description: '自定义迭代初值，用于定位特定分支的解，如 [[1,1],[3,-2]]（每项长度须等于 variables 长度）。给了 guesses 时优先从这些点出发',
+          items: { type: 'array', items: { type: 'number' } }
+        },
+        maxSolutions: { type: 'number', description: '最多返回多少组解（默认 50，上限 200）。用于限制多解枚举的输出量' },
         coeffs: { type: 'array', items: { type: 'number' }, description: '多项式系数（降幂），如 [1,-5,6] 表示 x²-5x+6' },
         angleMode: { type: 'string', enum: ['rad', 'deg', 'grad'], description: '方程里三角函数的角制（默认 rad）' }
       }
