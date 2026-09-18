@@ -1,5 +1,5 @@
 @echo off
-cd /d C:\Users\yxpil\Desktop\NetON
+cd /d %~dp0
 echo Starting NetON MCP server on port 8341...
 set NETON_PORT=8341
 start "NetON MCP" /min node src\index.js
