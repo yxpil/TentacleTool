@@ -1,0 +1,22 @@
+{
+  "name": "jsonx-mcp-server",
+  "version": "1.0.0",
+  "description": "Jsonx - 数据格式处理 MCP 服务器（JSON/YAML/CSV/TSV 互转、JSONPath 查询、结构推断、结构化 diff、统计聚合，零依赖纯 Node 原生实现）",
+  "type": "commonjs",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node test/smoke.test.js",
+    "test:e2e": "node test/mcp.e2e.js",
+    "test:all": "node test/smoke.test.js && node test/mcp.e2e.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "mcp", "json", "yaml", "csv", "tsv", "jsonpath", "diff",
+    "schema", "aggregate", "converter", "zero-dependency"
+  ],
+  "license": "MIT"
+}
