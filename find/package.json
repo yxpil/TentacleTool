@@ -1,0 +1,16 @@
+{
+  "name": "find-mcp-server",
+  "version": "1.0.0",
+  "description": "Find - 本机文件搜索 MCP 服务器（Everything 风格索引：文件名搜索 / 最近修改 / 内容检索 / 工具定位，Streamable HTTP 协议）",
+  "type": "commonjs",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": ["mcp", "find", "everything", "file-search", "local-search", "grep"],
+  "license": "MIT"
+}

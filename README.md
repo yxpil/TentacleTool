@@ -27,5 +27,5 @@ node src/index.js        # 或直接运行 start.bat
 
 ## 通用约定
 
-- `.gitignore` 作用于整个仓库（`node_modules/`、`logs/`、`*.log`、`.env`）
+- `.gitignore` 作用于整个仓库（`node_modules/`、`logs/`、`*.log`、`.env`、`cache/`）
 - 各工具集保持零依赖或各自管理依赖，根目录不放公共代码
