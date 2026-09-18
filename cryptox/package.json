@@ -1,0 +1,18 @@
+{
+  "name": "cryptox-mcp-server",
+  "version": "1.0.0",
+  "description": "Cryptox - 哈希与编码 MCP 服务器（哈希 / HMAC / 编解码 / JWT 解析 / UUID 与密码生成 / 文件校验和 / AES-256-GCM 加解密，Streamable HTTP 协议，零依赖）",
+  "type": "commonjs",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node test/smoke.test.js",
+    "test:e2e": "node test/mcp.e2e.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": ["mcp", "crypto", "hash", "hmac", "encoding", "base64", "jwt", "uuid", "password", "aes", "checksum"],
+  "license": "MIT"
+}
