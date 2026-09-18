@@ -5,3 +5,10 @@ logs/
 .DS_Store
 cache/
 .analyze-cache/
+.kb-cache/
+
+# kb (MySQL 知识库) —— 本地私有配置，可能含账号密码，禁止入库
+kb/kb.config.json
+kb/kb.config.local.json
+kb/logs/
+kb/.kb-cache/

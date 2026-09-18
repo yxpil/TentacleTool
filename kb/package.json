@@ -1,0 +1,23 @@
+{
+  "name": "kb-mcp-server",
+  "version": "1.0.0",
+  "description": "KB - MySQL 知识库 MCP 服务器（把多个 MySQL 表组合成有业务含义的知识库：列出数据源 / 看表结构 / 跨表搜索 / 只读 SQL / 概览统计，零依赖自实现 MySQL 协议）",
+  "type": "commonjs",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node test/protocol.test.js",
+    "test:protocol": "node test/protocol.test.js",
+    "test:e2e": "node test/mcp.e2e.js",
+    "test:all": "node test/protocol.test.js && node test/mcp.e2e.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "mcp", "kb", "knowledge-base", "mysql", "mariadb", "sql",
+    "database", "zero-dependency", "text-protocol", "read-only"
+  ],
+  "license": "MIT"
+}

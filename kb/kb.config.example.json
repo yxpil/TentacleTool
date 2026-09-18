@@ -1,0 +1,76 @@
+{
+  // ==========================================================================
+  // KB 知识库配置示例 —— 复制成 kb.config.json 后按需修改
+  //
+  // 本文件支持 // 行注释与块注释（工具会先剥掉注释再解析 JSON）。
+  // ==========================================================================
+
+  // sources：MySQL 连接目标，可以有多个（不同服务器 / 不同账号）
+  "sources": {
+    "local": {
+      "label": "本机 MariaDB",
+      "host": "127.0.0.1",
+      "port": 3306,
+      "user": "root",
+      "password": "",
+      "database": "wkstudy",      // 默认库，表条目里可以不写 database
+      "charset": "utf8mb4",
+      "ssl": false,
+      "readOnly": true,           // true = 只允许 SELECT/SHOW/DESCRIBE/EXPLAIN
+      "maxRows": 200,
+      "pool": { "max": 4, "idleTimeout": 60000 }
+    }
+
+    // 也可以用 URL 简写：
+    // "prod": "mysql://readonly_user:secret@10.0.0.5:3306/analytics"
+  },
+
+  // knowledgeBases：**知识库 = 有名字的一批表**，表可来自不同 source / database
+  // 这就是"允许指定多个 MySQL 表格作为知识库"的地方。
+  "knowledgeBases": {
+    "系统管理": {
+      "description": "后台权限、角色、字典等系统表",
+      "source": "local",
+      "tables": [
+        { "database": "wkstudy", "table": "sys_user", "description": "系统用户" },
+        { "database": "wkstudy", "table": "sys_role", "description": "角色" },
+        { "database": "wkstudy", "table": "sys_permission", "description": "权限" },
+        { "database": "wkstudy", "table": "sys_user_role" },
+        { "database": "wkstudy", "table": "sys_role_permission" },
+        "wkstudy.sys_dict",
+        "wkstudy.sys_dict_item"
+      ]
+    },
+
+    "内容管理": {
+      "description": "文章、分类、标签、评论",
+      "source": "local",
+      "tables": [
+        "wkstudy.cms_article",
+        "wkstudy.cms_category",
+        "wkstudy.cms_tag",
+        "wkstudy.cms_article_tag",
+        {
+          "database": "wkstudy",
+          "table": "cms_comment",
+          // where：固化过滤条件，屏蔽已删除的评论
+          "where": "is_deleted = 0"
+        }
+      ]
+    },
+
+    "图谱配置": {
+      "description": "知识图谱的节点/关系标签定义",
+      "source": "local",
+      "tables": ["wkstudy.kg_graph_nodelabel", "wkstudy.kg_graph_rellabel"]
+    }
+  },
+
+  // limits：全局输出预算（Agent 上下文经济）
+  "limits": {
+    "maxRows": 200,          // 单次查询默认返回行数
+    "maxRowsHard": 2000,     // 硬上限，超过直接拒绝
+    "maxCellChars": 500,     // 单元格字符数截断
+    "maxTotalChars": 24000   // 单次工具输出总预算
+  }
+}
