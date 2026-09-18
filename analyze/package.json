@@ -1,0 +1,18 @@
+{
+  "name": "analyze-mcp-server",
+  "version": "1.0.0",
+  "description": "Analyze - 代码知识图谱 MCP 服务器（把代码目录解析成符号 + 关系的图：符号搜索 / 引用查询 / 调用链 / 依赖与循环检测 / 最短路径 / 影响面分析，Streamable HTTP 协议）",
+  "type": "commonjs",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node test/extractors.test.js",
+    "test:e2e": "node test/mcp.e2e.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": ["mcp", "analyze", "knowledge-graph", "code-graph", "call-graph", "dependency", "static-analysis", "ast"],
+  "license": "MIT"
+}
