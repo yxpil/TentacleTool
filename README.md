@@ -52,15 +52,17 @@ http://127.0.0.1:8347/
 
 | 文件夹 | 单测 | 端到端 |
 |--------|------|--------|
-| neton | `npm test` | — |
-| webview | `npm test` | — |
-| search | `npm test` | — |
-| find | `npm test` | — |
-| calc | `npm test` | `node test/mcp.e2e.js` |
-| analyze | `npm test` | `node test/mcp.e2e.js` |
-| kb | `npm test` | `node test/mcp.e2e.js` |
-| stamp | `npm test` | `node test/mcp.e2e.js` |
-| jsonx | `npm test` | `node test/mcp.e2e.js` |
+| neton | `npm test`（80 项） | — |
+| webview | `npm test`（100 项） | — |
+| search | `npm test`（62 项） | — |
+| find | `npm test`（74 项） | — |
+| calc | `npm test`（59 项） | `node test/mcp.e2e.js`（28 项） |
+| analyze | `npm test`（23 项） | `node test/mcp.e2e.js`（57 项） |
+| kb | `npm test`（34 项） | `node test/mcp.e2e.js`（60 项） |
+| stamp | `npm test`（351 项） | `node test/mcp.e2e.js`（58 项） |
+| jsonx | `npm test`（333 项） | `node test/mcp.e2e.js`（159 项） |
+
+合计 **单测 1116 项 + 端到端 362 项**，全部通过、无跳过。
 
 单测是**纯逻辑层**（不联网、不扫盘），可随时回归；端到端会自起服务器走完整 JSON-RPC。
 需要外部依赖的用例（数据库、外网）在依赖不可用时会优雅跳过而不是失败。

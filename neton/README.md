@@ -6,7 +6,7 @@
 
 ```powershell
 cd TentacleTool\neton
-# 可选：自定义端口（默认 3000）
+# 可选：自定义端口（默认 8341）
 $env:NETON_PORT = '8341'
 $env:NETON_HOST = '127.0.0.1'
 node src/index.js

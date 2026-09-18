@@ -6,7 +6,7 @@
 
 ```powershell
 cd TentacleTool\webview
-# 可选：自定义端口（默认 3000）
+# 可选：自定义端口（默认 8342）
 $env:WEBVIEW_PORT = '8342'
 $env:WEBVIEW_HOST = '127.0.0.1'
 node src/index.js

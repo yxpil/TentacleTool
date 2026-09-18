@@ -17,7 +17,7 @@ process.on('unhandledRejection', (reason) => {
 process.on('exit', (code) => logger.log('[process exit] code=' + code));
 logger.log('[boot] Calc MCP Server starting, pid=' + process.pid + ', node=' + process.version + ', cwd=' + process.cwd());
 
-const PORT = parseInt(process.env.CALC_PORT || process.env.PORT || '3000', 10);
+const PORT = parseInt(process.env.CALC_PORT || process.env.PORT || '8345', 10);
 const HOST = process.env.CALC_HOST || '127.0.0.1';
 
 const server = new McpStreamableHttpServer({
