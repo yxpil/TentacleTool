@@ -1,0 +1,16 @@
+{
+  "name": "search-mcp-server",
+  "version": "1.0.0",
+  "description": "Search - 聚合搜索 MCP 服务器（必应/百度/DuckDuckGo，折叠摘要 + 翻页 + 按需展开，上下文经济设计，零依赖）",
+  "type": "commonjs",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": ["mcp", "search", "bing", "baidu", "duckduckgo", "agent"],
+  "license": "MIT"
+}
