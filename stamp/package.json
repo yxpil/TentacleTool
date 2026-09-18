@@ -1,0 +1,22 @@
+{
+  "name": "stamp-mcp-server",
+  "version": "1.0.0",
+  "description": "Stamp - 时间与调度 MCP 服务器（时间戳转换 / 时长解析 / 时区换算 / 工作日推算 / cron 解析与触发预测，零依赖，纯 Node 原生 Date+Intl 实现时区运算）",
+  "type": "commonjs",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node test/smoke.test.js",
+    "test:e2e": "node test/mcp.e2e.js",
+    "test:all": "node test/smoke.test.js && node test/mcp.e2e.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "mcp", "time", "timestamp", "date", "timezone", "dst", "cron",
+    "duration", "workday", "zero-dependency", "iana-timezone"
+  ],
+  "license": "MIT"
+}
