@@ -7,13 +7,14 @@
 | 文件夹 | 工具集 | 说明 |
 |--------|--------|------|
 | [`neton/`](./neton/) | NetON | 局域网网络工具 MCP 服务器（设备发现 / 端口扫描 / 协议分析 / 抓包） |
+| [`webview/`](./webview/) | WebView | 网页转 Markdown MCP 服务器（网页转 MD / HTML 转 MD / 链接提取 / 元信息提取） |
 
 ## 使用方式
 
-每个工具集自带独立的 `package.json`、`README.md` 和启动脚本，进入对应文件夹按其 README 操作即可。例如启动 NetON：
+每个工具集自带独立的 `package.json`、`README.md` 和启动脚本，进入对应文件夹按其 README 操作即可。例如启动 WebView：
 
 ```powershell
-cd neton
+cd webview
 node src/index.js        # 或直接运行 start.bat
 ```
 

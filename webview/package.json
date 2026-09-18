@@ -1,0 +1,16 @@
+{
+  "name": "webview-mcp-server",
+  "version": "1.0.0",
+  "description": "WebView - 网页转 Markdown MCP 服务器（网页抓取 + 零依赖 HTML→Markdown 转换，Streamable HTTP 协议）",
+  "type": "commonjs",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": ["mcp", "webpage", "markdown", "html", "convert", "scrape"],
+  "license": "MIT"
+}
