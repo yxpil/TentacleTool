@@ -101,7 +101,8 @@ async function run(args = {}) {
   const st = status();
   lines.push('');
   if (st) {
-    lines.push(`> 索引: ${st.count} 项，构建于 ${fmtTime(st.builtAt)}（${relTime(st.builtAt)}）`);
+    const engine = st.engine === 'native-c' ? '原生C' : 'JS';
+    lines.push(`> 索引: ${st.count} 项（${engine} 引擎），构建于 ${fmtTime(st.builtAt)}（${relTime(st.builtAt)}）`);
   }
   lines.push('> 建议: 脚本/命令中使用完整路径，避免 PATH 差异');
   return lines.join('\n');

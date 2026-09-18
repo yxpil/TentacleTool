@@ -71,7 +71,8 @@ async function run(args = {}) {
   const st = status();
   lines.push('');
   if (st) {
-    lines.push(`> 索引: ${st.count} 项，构建于 ${fmtTime(st.builtAt)}（${relTime(st.builtAt)}，耗时 ${(st.tookMs / 1000).toFixed(1)}s）${st.truncated ? ' | 注意：已达条目上限，部分深/噪声目录未收录' : ''}`);
+    const engine = st.engine === 'native-c' ? '原生C' : 'JS';
+    lines.push(`> 索引: ${st.count} 项（${engine} 引擎），构建于 ${fmtTime(st.builtAt)}（${relTime(st.builtAt)}，耗时 ${(st.tookMs / 1000).toFixed(1)}s）${st.truncated ? ' | 注意：已达条目上限，部分深/噪声目录未收录' : ''}`);
     lines.push('> 重建索引: refresh=true（AppData/系统目录等默认跳过，见 README）');
   }
   if (total > offset + limit) {

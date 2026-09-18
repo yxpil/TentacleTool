@@ -70,7 +70,8 @@ async function run(args = {}) {
   const st = status();
   lines.push('');
   if (st) {
-    lines.push(`> 索引: ${st.count} 项，构建于 ${fmtTime(st.builtAt)}（${relTime(st.builtAt)}）。mtime 取自索引时刻，索引之后的新改动需要 refresh=true`);
+    const engine = st.engine === 'native-c' ? '原生C' : 'JS';
+    lines.push(`> 索引: ${st.count} 项（${engine} 引擎），构建于 ${fmtTime(st.builtAt)}（${relTime(st.builtAt)}）。mtime 取自索引时刻，索引之后的新改动需要 refresh=true`);
   }
   if (hits.length > offset + limit) {
     const more = [`within="${args.within || '24h'}"`, `offset=${offset + limit}`];

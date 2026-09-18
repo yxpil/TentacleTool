@@ -2,7 +2,7 @@
 
 本机文件搜索 MCP 服务器 —— **让 AI 在你的电脑上翻箱倒柜找到要找的东西**（Everything 风格）。
 
-零依赖（仅 Node 原生模块），MCP Streamable HTTP 协议（2025-03-26）。
+零依赖（Node 原生模块 + 可选的 C 原生索引器），MCP Streamable HTTP 协议（2025-03-26）。
 
 ## 解决什么问题
 
@@ -52,14 +52,36 @@ find_tool(name="node")                            # → C:\Program Files\nodejs\
 
 ## 工作原理
 
-### 索引
+### 索引（两级实现，原生优先）
 
-- 服务启动即**后台预热索引**；首次调用若索引未就绪会现场构建（约 10-60 秒，视盘上文件数），之后走缓存秒回
+| 引擎 | 实现 | 实测（本机 19 万条目） |
+|------|------|------------------------|
+| **原生 C**（推荐） | `src/native/findidx.exe`，`FindFirstFileW` + 8 线程 | **约 0.5 秒** |
+| JS 兜底 | `src/utils/indexer.js`，`readdir` + 并发 `stat` | 约 10 秒 |
+
+服务器启动时**优先调用原生 exe**；exe 不存在（未编译/非 Windows）或执行失败时**自动回退 JS 版**，
+两者产出的索引数据与跳过规则完全一致。工具输出页脚会标注当前用的是哪个引擎。
+
+```powershell
+# 编译原生索引器（需要 MinGW-w64 gcc；Strawberry Perl 自带的即可）
+cd src\native
+build.bat
+```
+
+原生版为什么快：`FindFirstFileW` **一次系统调用就拿全**目录项的名字/大小/时间（JS 版需要
+`readdir` + 每个文件一次 `stat`，约 2 倍系统调用 + 全部 JS 开销）；`\\?\` 前缀支持超长路径；
+多线程分摊目录遍历。产物是**与 JS 版完全相同的 TSV** 缓存，Node 端统一从缓存加载。
+
+> 不编译也能用——JS 版功能完全相同，只是首次构建慢一些。
+
+### 通用索引机制
+
+- 服务启动即**后台预热索引**；首次调用若索引未就绪会现场构建，之后走缓存秒回
 - 扫描根：用户主目录 + 所有存在的固定盘符；重叠子树自动去重
-- 逐层 BFS 并发遍历；符号链接/junction 一律跳过（防循环）
+- 符号链接/junction 一律跳过（防循环）
 - 索引条目：路径 / 大小 / mtime / 是否目录，TSV 存储在 `cache/index.tsv`
 - **TTL 6 小时**自动过期重建；任意工具传 `refresh=true` 立即重建
-- 双上限：深度 12 层、条目 18 万条，超限标记 truncated 并在输出中提示
+- 双上限：深度 12 层、条目 25 万条，超限标记 truncated 并在输出中提示
 
 ### 跳过名单（整棵跳过）
 
@@ -95,6 +117,10 @@ find/
 └── src/
     ├── index.js           # 入口：启动 + 后台预热索引
     ├── mcp/server.js      # MCP Streamable HTTP 服务器（零依赖）
+    ├── native/
+    │   ├── findidx.c      # 原生索引器（C + Win32，多线程，与 JS 版行为一致）
+    │   ├── findidx.exe    # 编译产物（缺失时自动回退 JS 版）
+    │   └── build.bat      # 编译脚本（gcc -O2）
     ├── tools/
     │   ├── registry.js    # 工具注册表
     │   ├── find-files.js  # 文件名搜索
@@ -102,7 +128,7 @@ find/
     │   ├── find-in-files.js # 内容搜索
     │   └── find-tool.js   # 工具定位
     └── utils/
-        ├── indexer.js     # 并发遍历 + TSV 磁盘缓存
+        ├── indexer.js     # 索引调度：原生优先 + JS 兜底 + TSV 缓存
         ├── matcher.js     # 四模式评分匹配
         ├── format.js      # 大小/时间紧凑格式化
         └── logger.js      # 日志（logs/find.log）

@@ -160,7 +160,7 @@ async function run(args = {}) {
     : `已扫描全部 ${scanned} 个候选文件`;
   lines.push(`> ${scanNote} | 单文件≤${Math.round(maxFileSize / 1024)}KB、文本类扩展名、二进制跳过`);
   if (st) {
-    lines.push(`> 索引: ${st.count} 项，构建于 ${fmtTime(st.builtAt)}（${relTime(st.builtAt)}）。索引未收录的文件（如新建/被跳过目录内）不在扫描范围`);
+    lines.push(`> 索引: ${st.count} 项（${st.engine === 'native-c' ? '原生C' : 'JS'} 引擎），构建于 ${fmtTime(st.builtAt)}（${relTime(st.builtAt)}）。索引未收录的文件（如新建/被跳过目录内）不在扫描范围`);
   }
   return lines.join('\n');
 }
