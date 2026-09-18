@@ -1,0 +1,18 @@
+{
+  "name": "httpx-mcp-server",
+  "version": "1.0.0",
+  "description": "Httpx - 零依赖 HTTP 客户端 MCP 服务器（通用请求/下载/头探测/批量/JSON/探测，内置 SSRF 防护，Streamable HTTP 协议）",
+  "type": "commonjs",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node test/smoke.test.js",
+    "test:e2e": "node test/mcp.e2e.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": ["mcp", "http", "httpx", "client", "request", "ssrf", "download", "probe"],
+  "license": "MIT"
+}

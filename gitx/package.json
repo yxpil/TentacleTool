@@ -1,0 +1,18 @@
+{
+  "name": "gitx-mcp-server",
+  "version": "1.0.0",
+  "description": "Gitx - Git 仓库操作 MCP 服务器（状态/日志/差异/查看/blame/文件历史/分支/stash/remote/提交，Streamable HTTP 协议，零依赖）",
+  "type": "commonjs",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node test/smoke.test.js",
+    "test:e2e": "node test/mcp.e2e.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": ["mcp", "git", "vcs", "diff", "log", "blame", "branch", "stash", "commit"],
+  "license": "MIT"
+}
