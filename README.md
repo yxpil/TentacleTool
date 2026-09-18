@@ -10,6 +10,7 @@
 | [`webview/`](./webview/) | WebView | 网页转 Markdown MCP 服务器（网页转 MD / HTML 转 MD / 链接提取 / 元信息提取） |
 | [`search/`](./search/) | Search | 聚合搜索 MCP 服务器（必应/百度/DuckDuckGo，折叠摘要 + 翻页 + 按需展开全文） |
 | [`find/`](./find/) | Find | 本机文件搜索 MCP 服务器（Everything 风格：文件名/最近修改/内容检索/工具定位，可选 C 原生索引器加速） |
+| [`calc/`](./calc/) | Calc | 科学计算器 MCP 服务器（表达式求值 / 复数 / 方程求解 / 矩阵运算 / 单位换算，手写零依赖引擎） |
 
 ## 使用方式
 

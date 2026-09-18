@@ -1,0 +1,16 @@
+{
+  "name": "calc-mcp-server",
+  "version": "1.0.0",
+  "description": "Calc - 科学计算器 MCP 服务器（数学表达式求值 / 复数 / 单位换算 / 方程求解 / 矩阵运算，零依赖，Streamable HTTP 协议）",
+  "type": "commonjs",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": ["mcp", "calculator", "math", "expression", "complex", "matrix", "equation"],
+  "license": "MIT"
+}
