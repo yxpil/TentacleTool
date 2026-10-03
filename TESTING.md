@@ -1,5 +1,13 @@
 # TentacleTool 测试说明
 
+- 测试完成：是（2026-10-04）
+- 测试日期：2026-10-04
+- 测试内容：单元：calc 求值引擎(tokenizer/parser/evaluator)主路径+错误路径；注入：process.exit/constructor 等恶意 JS 不执行
+- 运行命令：cd calc && npm test
+- 测试框架：Node 内置 node:test
+- 模型：豆包（Doubao）生成
+
+
 TentacleTool 是多子项目 monorepo（analyze / calc / cryptox / fsx / httpx / jsonx / neton / search …），每个子项目独立零依赖。本次在 **calc** 子项目补齐 node:test 自动化套件。
 
 ## 运行方式
