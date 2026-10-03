@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "node --watch src/index.js",
-    "test": "node test/equation.test.js"
+    "test": "node test/equation.test.js && node --test --test-force-exit \"tests/**/*.test.cjs\""
   },
   "engines": {
     "node": ">=18"
