@@ -89,3 +89,15 @@ http://127.0.0.1:8347/
 - `.gitignore` 作用于整个仓库（`node_modules/`、`logs/`、`*.log`、`.env`、`cache/`）
 - **凭据类文件一律不入库**：如 `kb/kb.config.json`（数据库连接串含账号密码），
   仓库里只放 `*.example.json` 模板
+
+---
+
+<div align="center">
+
+<a href="https://github.com/yxpil/TentacleTool">
+  <img width="100%" src="https://alittlecatgirlpanel.yxp.hk/card?repo=yxpil/TentacleTool" alt="gh-card · yxpil/TentacleTool" />
+</a>
+
+<sub>Powered by <a href="https://alittlecatgirlpanel.yxp.hk"><b>gh-card</b></a> · 粉色手写体 README 仓库名片</sub>
+
+</div>
